@@ -1,0 +1,9 @@
+{
+  "name": "cloudapp-authorizer",
+  "description": "AWS API Gateway authorizer function for services called from Ex Libris Cloud Apps",
+  "license": "BSD-3-Clause",
+  "version": "0.0.1",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
+  }
+}
