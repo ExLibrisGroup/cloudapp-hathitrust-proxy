@@ -113,7 +113,7 @@ Resources:
               - CloudAppAuthorizer: []
               x-amazon-apigateway-integration:
                 uri:
-                  Fn::Sub: arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/${HathitrustProxyFunction.Arn}/invocations
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${HathitrustProxyFunction.Arn}/invocations
                 responses:
                   default:
                     statusCode: '200'
@@ -152,7 +152,7 @@ Metadata:
     Author: Ex Libris
     SpdxLicenseId: BSD-3-Clause
     LicenseUrl: s3://aws-sam-cli-managed-default-samclisourcebucket-fn1hn3mq5ls0/73dcaa0254df7e083f19f824601946e4
-    ReadmeUrl: s3://aws-sam-cli-managed-default-samclisourcebucket-fn1hn3mq5ls0/6351d4cad08504d9f8740b38ed25cbd2
+    ReadmeUrl: s3://aws-sam-cli-managed-default-samclisourcebucket-fn1hn3mq5ls0/373886082c8a0b07aab1ef2f4cceaadd
     HomePageUrl: https://github.com/ExLibrisGroup/hathitrust-proxy
-    SemanticVersion: 0.0.1
+    SemanticVersion: 0.0.3
     SourceCodeUrl: https://github.com/ExLibrisGroup/hathitrust-proxy
