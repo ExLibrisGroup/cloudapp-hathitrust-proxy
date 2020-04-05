@@ -146,6 +146,6 @@ Metadata:
     LicenseUrl: LICENSE
     ReadmeUrl: README.md
     HomePageUrl: https://github.com/ExLibrisGroup/hathitrust-proxy
-    SemanticVersion: 0.0.3
+    SemanticVersion: 0.0.4
     SourceCodeUrl: https://github.com/ExLibrisGroup/hathitrust-proxy
     

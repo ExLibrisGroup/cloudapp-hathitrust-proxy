@@ -107,3 +107,4 @@ dist
 .aws-sam/
 samconfig.toml
 .test/
+packaged.yml

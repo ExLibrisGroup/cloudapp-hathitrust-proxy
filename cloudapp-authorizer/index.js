@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const algorithm = process.env.CLOUDAPP_AUTHORIZER_ALGORITHM || 'RS256';
+const ignoreExpiration = (process.env.CLOUDAPP_AUTHORIZER_IGNORE_EXPIRATION=='true');
 
 // Policy helper function
 const generatePolicy = (principalId, effect, resource) => {
@@ -34,7 +36,7 @@ module.exports.auth = (event, context, callback) => {
 
   const publicKey = require('fs').readFileSync(__dirname + '/public-key.pem');
   try {
-    const verified = jwt.verify(tokenValue, publicKey, {ignoreExpiration: true, algorithm: "RS256"});
+    const verified = jwt.verify(tokenValue, publicKey, {ignoreExpiration, algorithm});
     // Verify issuer
     if (!verified.iss.startsWith('ExlCloudApp')) throw new Error('Invalid issuer.');
     console.log('valid from customAuthorizer', verified);
