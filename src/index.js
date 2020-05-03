@@ -36,9 +36,11 @@ const handler = middy(async (event) => {
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 204, body: null };
   }
+  
+  const path = event.pathParameters.proxy || event.path;
 
   const params = {
-    url: HATHITRUST_API_URL + event.path,
+    url: HATHITRUST_API_URL + path.replace(/^\/?/, '/'),
     method: event.httpMethod,
     qs: event.queryStringParameters,
     encoding: null,

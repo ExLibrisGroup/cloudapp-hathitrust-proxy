@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const algorithm = process.env.CLOUDAPP_AUTHORIZER_ALGORITHM || 'RS256';
 const ignoreExpiration = (process.env.CLOUDAPP_AUTHORIZER_IGNORE_EXPIRATION=='true');
+const allowedApps = process.env.CLOUDAPP_AUTHORIZER_ALLOWED_APPS;
+const JWT_ISS_PREFIX = 'ExlCloudApp'.toLowerCase();
 
 // Policy helper function
 const generatePolicy = (principalId, effect, resource) => {
@@ -21,8 +23,6 @@ const generatePolicy = (principalId, effect, resource) => {
 };
 
 module.exports.auth = (event, context, callback) => {
-  console.log('event', event);
-
   if (!event.authorizationToken) {
     return callback('Unauthorized');
   }
@@ -38,7 +38,11 @@ module.exports.auth = (event, context, callback) => {
   try {
     const verified = jwt.verify(tokenValue, publicKey, {ignoreExpiration, algorithm});
     // Verify issuer
-    if (!verified.iss.startsWith('ExlCloudApp')) throw new Error('Invalid issuer.');
+    const issuer = verified.iss.replace(/:!~/, ':').toLowerCase();
+    const valueIssuer = allowedApps ? 
+      allowedApps.toLowerCase().split(',').map(v=>`${JWT_ISS_PREFIX}:${v}`).includes(issuer) :
+      issuer.startsWith(JWT_ISS_PREFIX);
+    if (!valueIssuer) throw new Error('Invalid issuer.')
     console.log('valid from customAuthorizer', verified);
     return callback(null, generatePolicy(verified.sub, 'Allow', '*'));
   } catch (e) {
