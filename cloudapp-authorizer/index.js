@@ -38,7 +38,7 @@ module.exports.auth = (event, context, callback) => {
   try {
     const verified = jwt.verify(tokenValue, publicKey, {ignoreExpiration, algorithm});
     // Verify issuer
-    const issuer = verified.iss.replace(/:!~/, ':').toLowerCase();
+    const issuer = (verified.aud || verified.iss).replace(/:!~/, ':').toLowerCase();
     const valueIssuer = allowedApps ? 
       allowedApps.toLowerCase().split(',').map(v=>`${JWT_ISS_PREFIX}:${v}`).includes(issuer) :
       issuer.startsWith(JWT_ISS_PREFIX);
